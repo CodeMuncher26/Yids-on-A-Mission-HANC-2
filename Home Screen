@@ -3,35 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jewish Learning Connect</title>
+    <title>Sign Up - Jewish Learning Connect</title>
+    
+    <!-- Include Choices.js CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+            padding: 20px;
         }
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            color: white;
-            text-decoration: none;
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
             border-radius: 5px;
         }
-        .signup {
-            background: #007bff;
+        .rating {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
         }
-        .login {
-            background: #28a745;
+        .rating input {
+            width: 30px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Jewish Learning Connect</h1>
-    <p>Join a vibrant community of Jews learning together through Zoom.</p>
-    <div>
-        <a href="signup.html" class="button signup">Sign Up</a>
-        <a href="login.html" class="button login">Log In</a>
-    </div>
+    <h1>Sign Up</h1>
+    <form action="#" method="POST">
+        <!-- Ashkenaz or Sepharadi -->
+        <label for="heritage">Are you Ashkenaz or Sepharadi?</label>
+        <select id="heritage" name="heritage">
+            <option value="ashkenaz">Ashkenaz</option>
+            <option value="sepharadi">Sepharadi</option>
+        </select>
+
+        <!-- Primary Language -->
+        <label for="language">What is your primary language?</label>
+        <select id="language" name="language">
+            <option value="english">English</option>
+            <option value="hebrew">Hebrew</option>
+            <option value="spanish">Spanish</option>
+            <option value="french">French</option>
+            <!-- Add more languages as needed -->
+        </select>
+
+        <!-- Country & Timezone -->
+        <label for="country">What country do you live in?</label>
+        <select id="country" name="country">
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+            <!-- Add more countries as needed -->
+        </select>
+
+        <label for="timezone">What is your timezone?</label>
+        <select id="timezone" name="timezone">
+            <option value="gmt">GMT</option>
+            <option value="est">EST</option>
+            <option value="pst">PST</option>
+            <!-- Add more timezones as needed -->
+        </select>
+
+        <!-- Yeshiva -->
+        <label for="yeshiva">What Yeshiva do you attend?</label>
+        <input type="text" id="yeshiva" name="yeshiva" placeholder="Enter the name of your Yeshiva">
+
+        <!-- How Observant -->
+        <label>How observant are you?</label>
+        <div class="rating">
+            <label for="observant-1">1</label>
+            <input type="radio" id="observant-1" name="observant" value="1">
+            <label for="observant-5">5</label>
+            <input type="radio" id="observant-5" name="observant" value="5">
+        </div>
+
+        <!-- What do you want to learn? -->
+        <label>What do you want to learn?</label>
+        <select id="learning" name="learning">
+            <option value="gemara">Gemara</option>
+            <option value="mishna">Mishna</option>
+            <option value="chumash">Chumash</option>
+            <option value="weekly_parsha">Weekly Parsha</option>
+            <option value="other">Other</option>
+        </select>
+
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+
+    <!-- Include Choices.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        // Initialize Choices.js for searchable dropdowns
+        const heritage = new Choices('#heritage', { searchEnabled: false });
+        const language = new Choices('#language', { searchEnabled: true });
+        const country = new Choices('#country', { searchEnabled: true });
+        const timezone = new Choices('#timezone', { searchEnabled: true });
+        const learning = new Choices('#learning', { searchEnabled: true });
+    </script>
 </body>
 </html>
