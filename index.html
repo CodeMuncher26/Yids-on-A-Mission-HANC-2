@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chavruta to Go - Sign Up</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #555;
+    }
+    input {
+      width: calc(100% - 22px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .signin-link {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 14px;
+    }
+    .signin-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .signin-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Chavruta to Go</h1>
+  <div class="container">
+    <div class="signin-link">
+      <a href="signin.html">Already have an account? Sign In!</a>
+    </div>
+    <form id="authForm">
+      <h2>Sign Up</h2>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+
+      <div class="error" id="error"></div>
+
+      <button type="button" onclick="createAccount()">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    const existingUsers = ['user1', 'user2', 'user3']; // Mock existing users
+
+    function createAccount() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = '';
+
+      if (existingUsers.includes(username)) {
+        errorDiv.textContent = 'Username already exists. Please sign in.';
+        return;
+      }
+
+      if (!validatePassword(password)) {
+        errorDiv.textContent = 'Password must be at least 8 characters and contain an uppercase, lowercase, number, and special character.';
+        return;
+      }
+
+      alert('Account created successfully!');
+      existingUsers.push(username);
+    }
+
+    function validatePassword(password) {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return regex.test(password);
+    }
+  </script>
+</body>
+</html>
