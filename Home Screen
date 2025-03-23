@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewish Learning Connect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .signup {
+            background: #007bff;
+        }
+        .login {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Jewish Learning Connect</h1>
+    <p>Join a vibrant community of Jews learning together through Zoom.</p>
+    <div>
+        <a href="signup.html" class="button signup">Sign Up</a>
+        <a href="login.html" class="button login">Log In</a>
+    </div>
+</body>
+</html>
