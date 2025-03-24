@@ -1,0 +1,192 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chavruta to Go - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px;
+    }
+    .profile {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      padding: 20px;
+      margin: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .profile h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+    .profile p {
+      color: #555;
+      margin: 5px 0;
+    }
+    .profile .interests {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+    .profile .btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+    .profile .btn:hover {
+      background-color: #0056b3;
+    }
+    .profile .interests span {
+      display: inline-block;
+      margin: 5px;
+      background-color: #007bff;
+      color: white;
+      padding: 5px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Welcome to Chavruta to Go</h1>
+    <p>Your personalized learning partners</p>
+  </div>
+
+  <div class="container" id="profilesContainer">
+  </div>
+
+  <script>
+    // Simulating the user's profile (for demonstration purposes)
+    const userProfile = {
+      gender: 'boy',  // Example value from saved profile
+      observance: 4,  // Example observance level (1-5)
+      studyInterests: ['Chumash', 'Mishnah', 'Gemara'],  // Example study interests
+      language: 'English',  // Example primary language
+      country: 'United States',  // Example country
+      timeZone: 'Eastern Time (ET)'  // Example time zone
+    };
+
+    // Simulating some fake profiles for demonstration
+    const fakeProfiles = [
+      {
+        name: 'David Cohen',
+        gender: 'boy',
+        age: 18,
+        observance: 4,
+        studyInterests: ['Chumash', 'Mishnah'],
+        language: 'English',
+        country: 'United States',
+        timeZone: 'Eastern Time (ET)',
+        yeshiva: 'Mesivta',
+      },
+      {
+        name: 'Gilad Kahen',
+        gender: 'boy',
+        age: 19,
+        observance: 5,
+        studyInterests: ['Gemara', 'Navi'],
+        language: 'English',
+        country: 'United States',
+        timeZone: 'Eastern Time (ET)',
+        yeshiva: 'HANC',
+      },
+      {
+        name: 'Moshe Ben-David',
+        gender: 'boy',
+        age: 17,
+        observance: 3,
+        studyInterests: ['Chumash', 'Weekly Parsha'],
+        language: 'English',
+        country: 'United States',
+        timeZone: 'Central Time (CT)',
+        yeshiva: 'Kohelet',
+      },
+      {
+        name: 'Andy Samuels',
+        gender: 'boy',
+        age: 20,
+        observance: 4,
+        studyInterests: ['Mishnah', 'Daf Yomi'],
+        language: 'English',
+        country: 'United States',
+        timeZone: 'Eastern Time (ET)',
+        yeshiva: 'YTVA',
+      }
+    ];
+
+    // Algorithm to filter and match users based on the profile
+    function filterProfiles() {
+      // Simulate filtering based on user profile
+      const filteredProfiles = fakeProfiles.filter(profile => {
+        return (
+          profile.gender == userProfile.gender &&  // Exclude same-gender users
+          profile.observance >= userProfile.observance - 1 &&  // Similar or higher observance level
+          profile.language === userProfile.language &&  // Same primary language
+          profile.country === userProfile.country &&  // Same country
+          Math.abs(profile.age - 18) <= 3  // Age range similarity (e.g., 18 ± 3)
+        );
+      });
+
+      return filteredProfiles.slice(0, 3);  // Limit to 3 profiles
+    }
+
+    // Function to display profiles
+    function displayProfiles() {
+      const profilesContainer = document.getElementById('profilesContainer');
+      const profilesToDisplay = filterProfiles();
+
+      profilesContainer.innerHTML = '';  // Clear existing profiles
+
+      profilesToDisplay.forEach(profile => {
+        const profileDiv = document.createElement('div');
+        profileDiv.classList.add('profile');
+
+        const interestsHTML = profile.studyInterests.map(interest => `<span>${interest}</span>`).join('');
+
+        profileDiv.innerHTML = `
+          <h3>${profile.name}</h3>
+          <p><strong>Age:</strong> ${profile.age}</p>
+          <p><strong>Yeshiva:</strong> ${profile.yeshiva}</p>
+          <p><strong>Observance Level:</strong> ${profile.observance}</p>
+          <div class="interests">${interestsHTML}</div>
+          <p><strong>Time Zone:</strong> ${profile.timeZone}</p>
+          <button class="btn">Connect</button>
+        `;
+
+        profilesContainer.appendChild(profileDiv);
+      });
+    }
+
+    // Initialize the home page
+    displayProfiles();
+  </script>
+</body>
+</html>
