@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chavruta to Go - Profile Setup</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      color: #555;
+    }
+    input, select, input[type="range"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    .interest-box {
+      display: inline-block;
+      padding: 15px;
+      margin: 5px;
+      background-color: #f0f0f0;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    .interest-box.selected {
+      background-color: #007bff;
+      color: white;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .interest-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Complete Your Profile</h2>
+
+    <!-- Gender Question -->
+    <label for="gender">Boy or Girl?</label>
+    <select id="gender" name="gender" required>
+      <option value="">Select Gender</option>
+      <option value="boy">Boy</option>
+      <option value="girl">Girl</option>
+    </select>
+
+    <!-- Country Question -->
+    <label for="country">What country are you in?</label>
+    <select id="country" name="country" required onchange="updateTimeZones()">
+      <option value="">Select Country</option>
+      <!-- List of countries (shortened for brevity) -->
+      <option value="United States">United States</option>
+      <option value="Canada">Canada</option>
+      <option value="United Kingdom">United Kingdom</option>
+      <option value="Australia">Australia</option>
+      <!-- Add more countries here as needed -->
+    </select>
+
+    <!-- Time Zone Question -->
+    <label for="timeZone">Time Zone:</label>
+    <select id="timeZone" name="timeZone" required>
+      <option value="">Select Time Zone</option>
+      <!-- Time zones will be populated based on country selection -->
+    </select>
+
+    <!-- Ashkenazi, Sepharadi, Mizrachi Question -->
+    <label for="ethnicity">Are you Ashkenazi, Sepharadi, or Mizrachi?</label>
+    <select id="ethnicity" name="ethnicity" required>
+      <option value="Ashkenazi">Ashkenazi</option>
+      <option value="Sepharadi">Sepharadi</option>
+      <option value="Mizrachi">Mizrachi</option>
+    </select>
+
+    <!-- Age Question -->
+    <label for="age">How old are you?</label>
+    <input type="number" id="age" name="age" required />
+
+    <!-- Torah Observance Question -->
+    <label for="observance">How Torah observant are you?</label>
+    <input type="range" id="observance" min="1" max="5" step="1" />
+    <div id="observanceValue" style="text-align: center; font-weight: bold;">1</div>
+
+    <!-- Study Interests -->
+    <label>What do you want to study? (Select up to 3)</label>
+    <div class="interest-container">
+      <div class="interest-box" data-interest="Chumash">Chumash</div>
+      <div class="interest-box" data-interest="Mishnah">Mishnah</div>
+      <div class="interest-box" data-interest="Gemara">Gemara</div>
+      <div class="interest-box" data-interest="Weekly Parsha">Weekly Parsha</div>
+      <div class="interest-box" data-interest="Daf Yomi">Daf Yomi</div>
+      <div class="interest-box" data-interest="Navi">Navi</div>
+      <div class="interest-box" data-interest="Ketuviim">Ketuviim</div>
+    </div>
+
+    <!-- Yeshiva Question -->
+    <label for="yeshiva">What yeshiva do you go to?</label>
+    <input type="text" id="yeshiva" name="yeshiva" required />
+
+    <button type="button" onclick="saveProfile()">Save Profile</button>
+    <div class="error" id="error"></div>
+  </div>
+
+  <script>
+    const countryTimeZones = {
+      "United States": ["Pacific Time (PT)", "Mountain Time (MT)", "Central Time (CT)", "Eastern Time (ET)"],
+      "Canada": ["Pacific Time (PT)", "Mountain Time (MT)", "Central Time (CT)", "Eastern Time (ET)"],
+      "United Kingdom": ["Greenwich Mean Time (GMT)", "British Summer Time (BST)"],
+      "Australia": ["Australian Western Standard Time (AWST)", "Australian Central Standard Time (ACST)", "Australian Eastern Standard Time (AEST)"]
+      // Add more countries and their respective time zones
+    };
+
+    let selectedInterests = [];
+
+    // Update the time zone dropdown based on the selected country
+    function updateTimeZones() {
+      const country = document.getElementById('country').value;
+      const timeZoneSelect = document.getElementById('timeZone');
+      timeZoneSelect.innerHTML = "<option value=''>Select Time Zone</option>";  // Reset time zone dropdown
+
+      if (country && countryTimeZones[country]) {
+        countryTimeZones[country].forEach(zone => {
+          const option = document.createElement("option");
+          option.value = zone;
+          option.textContent = zone;
+          timeZoneSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Interest box selection logic
+    document.querySelectorAll('.interest-box').forEach(box => {
+      box.addEventListener('click', () => {
+        const interest = box.getAttribute('data-interest');
+        
+        if (box.classList.contains('selected')) {
+          // If it's already selected, deselect it
+          box.classList.remove('selected');
+          selectedInterests = selectedInterests.filter(item => item !== interest);
+        } else {
+          // If it's not selected and there are fewer than 3, select it
+          if (selectedInterests.length < 3) {
+            box.classList.add('selected');
+            selectedInterests.push(interest);
+          }
+        }
+      });
+    });
+
+    // Update the observance value text
+    document.getElementById('observance').addEventListener('input', function() {
+      document.getElementById('observanceValue').textContent = this.value;
+    });
+
+    // Save profile data to local storage
+    function saveProfile() {
+      const gender = document.getElementById('gender').value;
+      const country = document.getElementById('country').value.trim();
+      const timeZone = document.getElementById('timeZone').value.trim();
+      const ethnicity = document.getElementById('ethnicity').value;
+      const age = document.getElementById('age').value.trim();
+      const observance = document.getElementById('observance').value;
+      const yeshiva = document.getElementById('yeshiva').value.trim();
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = '';
+
+      if (!gender || !country || !timeZone || !ethnicity || !age || !yeshiva || selectedInterests.length === 0) {
+        errorDiv.textContent = 'Please fill in all fields and select up to 3 study interests!';
+        return;
+      }
+
+      const userProfile = {
+        gender,
+        country,
+        timeZone,
+        ethnicity,
+        age,
+        observance,
+        studyInterests: selectedInterests,
+        yeshiva
+      };
+
+      localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+      alert('Profile saved successfully!');
+      window.location.href = 'home.html';  // Redirect to home page or main dashboard
+    }
+  </script>
+</body>
+</html>
