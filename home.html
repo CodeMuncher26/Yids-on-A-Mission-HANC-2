@@ -147,11 +147,11 @@
       // Simulate filtering based on user profile
       const filteredProfiles = fakeProfiles.filter(profile => {
         return (
-          profile.gender == userProfile.gender &&  // Exclude same-gender users
+          profile.gender == userProfile.gender && 
           profile.observance >= userProfile.observance - 1 &&  // Similar or higher observance level
           profile.language === userProfile.language &&  // Same primary language
           profile.country === userProfile.country &&  // Same country
-          Math.abs(profile.age - 18) <= 3  // Age range similarity (e.g., 18 ± 3)
+          Math.abs(profile.age - 18) <= 7  // Age range similarity (e.g., 18 ± 7)
         );
       });
 
