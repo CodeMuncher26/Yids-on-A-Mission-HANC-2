@@ -59,11 +59,11 @@
         </select>
 
 <script>
-    const apiUrl = "https://list-of-all-countries-and-languages-with-their-codes.p.rapidapi.com/languages";
-    const headers = {
-        "X-RapidAPI-Host": "list-of-all-countries-and-languages-with-their-codes.p.rapidapi.com",
-        "X-RapidAPI-Key": "d9456f7938mshacb33fb097b583cp15eef8jsnc17d3ce03ba7"
-    };
+    const url = 'https://global.metadapi.com/lang/v1/languages';
+const options = {
+  method: 'GET',
+  headers: {Accept: 'application/json', 'Ocp-Apim-Subscription-Key': '123'}
+};
 
     fetch(apiUrl, { headers })
         .then(response => response.json())
